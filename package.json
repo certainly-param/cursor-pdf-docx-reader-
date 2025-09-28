@@ -1,16 +1,14 @@
 {
   "name": "pdf-docx-reader",
   "displayName": "PDF/DOCX Reader",
-  "description": "Simple tool to read PDF and DOCX files in Cursor IDE",
+  "description": "Read PDF and DOCX files directly in VS Code/Cursor IDE. Extract text content, metadata, and integrate with AI workflows.",
   "version": "1.0.0",
-  "publisher": "param",
+  "publisher": "padg9912",
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
-    "Other",
-    "AI",
-    "Documentation"
+    "Other"
   ],
   "keywords": [
     "pdf",
@@ -137,16 +135,24 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/param/cursor-pdf-docx-reader.git"
+    "url": "https://github.com/padg9912/cursor-pdf-docx-reader-.git"
   },
   "bugs": {
-    "url": "https://github.com/param/cursor-pdf-docx-reader/issues"
+    "url": "https://github.com/padg9912/cursor-pdf-docx-reader-/issues"
   },
-  "homepage": "https://github.com/param/cursor-pdf-docx-reader#readme",
+  "homepage": "https://github.com/padg9912/cursor-pdf-docx-reader-#readme",
   "license": "MIT",
   "galleryBanner": {
     "color": "#007ACC",
     "theme": "dark"
   },
-  "icon": "images/icon.png"
+  "icon": "images/icon.png",
+  "preview": true,
+  "badges": [
+    {
+      "url": "https://github.com/padg9912/cursor-pdf-docx-reader-/issues",
+      "href": "https://github.com/padg9912/cursor-pdf-docx-reader-/issues",
+      "description": "Issues"
+    }
+  ]
 }

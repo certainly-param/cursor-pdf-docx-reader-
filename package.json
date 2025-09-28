@@ -49,6 +49,16 @@
         "command": "pdfDocxReader.batchProcessFiles",
         "title": "Batch Process PDF/DOCX Files",
         "category": "PDF/DOCX Reader"
+      },
+      {
+        "command": "pdfDocxReader.readFileForAI",
+        "title": "Read File for AI Processing",
+        "category": "PDF/DOCX Reader"
+      },
+      {
+        "command": "pdfDocxReader.getDocumentSummary",
+        "title": "Get Document Summary",
+        "category": "PDF/DOCX Reader"
       }
     ],
     "menus": {

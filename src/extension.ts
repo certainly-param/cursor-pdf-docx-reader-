@@ -31,7 +31,10 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('pdfDocxReader.readFile', () => readFile('default')),
         vscode.commands.registerCommand('pdfDocxReader.readFileAsText', () => readFile('text')),
         vscode.commands.registerCommand('pdfDocxReader.readFileAsJson', () => readFile('json')),
-        vscode.commands.registerCommand('pdfDocxReader.batchProcessFiles', batchProcessFiles)
+        vscode.commands.registerCommand('pdfDocxReader.batchProcessFiles', batchProcessFiles),
+        // AI-specific commands
+        vscode.commands.registerCommand('pdfDocxReader.readFileForAI', (filePath: string) => readFileForAI(filePath)),
+        vscode.commands.registerCommand('pdfDocxReader.getDocumentSummary', (filePath: string) => getDocumentSummary(filePath))
     ];
 
     commands.forEach(command => context.subscriptions.push(command));
@@ -305,6 +308,39 @@ async function batchProcessFiles() {
 
     } catch (error) {
         vscode.window.showErrorMessage(`Batch processing failed: ${error}`);
+    }
+}
+
+// AI-specific functions for easier integration
+async function readFileForAI(filePath: string): Promise<DocumentData | null> {
+    try {
+        const data = await readDocumentFile(filePath, 'json', 
+            { report: () => {} }, 
+            { isCancellationRequested: false, onCancellationRequested: () => { return { dispose: () => {} }; } }
+        );
+        return data;
+    } catch (error) {
+        console.error(`AI read error: ${error}`);
+        return null;
+    }
+}
+
+async function getDocumentSummary(filePath: string): Promise<string> {
+    try {
+        const data = await readFileForAI(filePath);
+        if (!data) return 'Failed to read document';
+        
+        const summary = {
+            file: path.basename(filePath),
+            type: data.file_type,
+            size: data.full_text.length,
+            pages: data.page_count || data.paragraph_count || 0,
+            metadata: data.metadata
+        };
+        
+        return JSON.stringify(summary, null, 2);
+    } catch (error) {
+        return `Error: ${error}`;
     }
 }
 

@@ -1,8 +1,8 @@
 {
   "name": "pdf-docx-reader",
-  "displayName": "PDF/DOCX Reader",
-  "description": "Read PDF and DOCX files directly in VS Code/Cursor IDE. Extract text content, metadata, and integrate with AI workflows.",
-  "version": "1.0.0",
+  "displayName": "Cursor AI PDF/DOCX Reader",
+  "description": "AI-powered PDF and DOCX reader for Cursor IDE. Extract text, metadata, and integrate with AI agents for document processing.",
+  "version": "1.0.1",
   "publisher": "padg9912",
   "engines": {
     "vscode": "^1.74.0"
@@ -11,13 +11,18 @@
     "Other"
   ],
   "keywords": [
-    "pdf",
-    "docx",
-    "document",
-    "reader",
-    "ai",
-    "cursor",
-    "text-extraction"
+    "cursor-ai",
+    "ai-agent",
+    "pdf-reader",
+    "docx-reader",
+    "document-processing",
+    "text-extraction",
+    "ai-integration",
+    "cursor-ide",
+    "pdf-plumber",
+    "python-docx",
+    "metadata-extraction",
+    "ai-workflow"
   ],
   "activationEvents": [
     "onCommand:pdfDocxReader.readFile",

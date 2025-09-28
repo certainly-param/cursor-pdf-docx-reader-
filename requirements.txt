@@ -1,0 +1,12 @@
+# PDF and DOCX File Reader Tool Dependencies
+
+# PDF reading libraries
+pdfplumber>=0.9.0          # Primary PDF reader with better text extraction
+PyPDF2>=3.0.0              # Fallback PDF reader for compatibility
+
+# DOCX reading library
+python-docx>=0.8.11        # Microsoft Word document reader
+
+# Optional: Enhanced PDF processing
+# pymupdf>=1.23.0          # Alternative PDF reader (uncomment if needed)
+# pdfminer.six>=20221105   # Another PDF processing option (uncomment if needed)

@@ -167,6 +167,18 @@ Get just the metadata:
 python pdf_docx_reader.py document.pdf | jq '.metadata'
 ```
 
+## Installation
+
+### From VS Code Marketplace
+1. Open VS Code or Cursor IDE
+2. Go to Extensions (Ctrl/Cmd + Shift + X)
+3. Search for "PDF/DOCX Reader"
+4. Click Install
+
+### From GitHub
+1. Download the latest VSIX from [Releases](https://github.com/padg9912/cursor-pdf-docx-reader-/releases)
+2. Install from VSIX file
+
 ## License
 
 MIT License - feel free to use it however you want.
@@ -174,3 +186,7 @@ MIT License - feel free to use it however you want.
 ## Contributing
 
 Found a bug? Have an idea? Open an issue or send a PR. I'm always looking to improve this tool.
+
+## Marketplace
+
+Available on VS Code Marketplace: [PDF/DOCX Reader](https://marketplace.visualstudio.com/items?itemName=padg9912.pdf-docx-reader)

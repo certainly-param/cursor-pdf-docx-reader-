@@ -1,8 +1,8 @@
 {
   "name": "pdf-docx-reader",
   "displayName": "Cursor AI PDF/DOCX Reader",
-  "description": "AI-powered PDF and DOCX reader for Cursor IDE. Extract text, metadata, and integrate with AI agents for document processing.",
-  "version": "1.0.1",
+  "description": "AI-powered PDF and DOCX reader for Cursor IDE with auto-detection. Extract text, metadata, and seamlessly integrate with AI agents for automatic document processing.",
+  "version": "1.1.0",
   "publisher": "padg9912",
   "engines": {
     "vscode": "^1.74.0"
@@ -28,7 +28,12 @@
     "onCommand:pdfDocxReader.readFile",
     "onCommand:pdfDocxReader.readFileAsText",
     "onCommand:pdfDocxReader.readFileAsJson",
-    "onCommand:pdfDocxReader.batchProcessFiles"
+    "onCommand:pdfDocxReader.batchProcessFiles",
+    "onCommand:pdfDocxReader.readFileForAI",
+    "onCommand:pdfDocxReader.getDocumentSummary",
+    "onCommand:pdfDocxReader.autoDetectAndProcess",
+    "onCommand:pdfDocxReader.processForAI",
+    "onCommand:pdfDocxReader.getAIReadyContent"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -61,6 +66,21 @@
       {
         "command": "pdfDocxReader.getDocumentSummary",
         "title": "Get Document Summary",
+        "category": "PDF/DOCX Reader"
+      },
+      {
+        "command": "pdfDocxReader.autoDetectAndProcess",
+        "title": "Auto-Detect and Process Document",
+        "category": "PDF/DOCX Reader"
+      },
+      {
+        "command": "pdfDocxReader.processForAI",
+        "title": "Process Document for AI",
+        "category": "PDF/DOCX Reader"
+      },
+      {
+        "command": "pdfDocxReader.getAIReadyContent",
+        "title": "Get AI-Ready Content",
         "category": "PDF/DOCX Reader"
       }
     ],

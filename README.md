@@ -124,6 +124,56 @@ data = reader.read_file("document.pdf")
 print(data['full_text'])
 ```
 
+## 🤖 AI Auto-Detection (NEW in v1.1.0)
+
+The extension now includes **automatic detection and processing** for AI models! AI can now seamlessly process PDF/DOCX files without manual intervention.
+
+### New AI Commands
+
+- **`pdfDocxReader.autoDetectAndProcess`** - Automatically detects and processes any PDF/DOCX file
+- **`pdfDocxReader.processForAI`** - Returns AI-optimized data structure with enhanced context
+- **`pdfDocxReader.getAIReadyContent`** - Returns clean, AI-ready text content
+
+### AI Integration Example
+
+```typescript
+// AI can now automatically process documents
+const result = await vscode.commands.executeCommand(
+    'pdfDocxReader.processForAI', 
+    '/path/to/document.pdf'
+);
+
+const data = JSON.parse(result);
+if (data.ai_ready) {
+    console.log(`Processing ${data.file_type} document:`);
+    console.log(`Summary: ${data.summary}`);
+    console.log(`Content: ${data.content}`);
+}
+```
+
+### AI-Optimized Output
+
+The new AI commands return data in this enhanced format:
+
+```json
+{
+  "ai_ready": true,
+  "file_path": "/path/to/document.pdf",
+  "file_type": "PDF",
+  "content": "Full document text...",
+  "summary": "This is a PDF document with 5 pages containing 1,234 words...",
+  "metadata": { "title": "Document Title", "author": "Author" },
+  "structure": {
+    "page_count": 5,
+    "char_count": 12345,
+    "word_count": 1234
+  },
+  "processed_at": "2024-01-01T12:00:00.000Z"
+}
+```
+
+**Perfect for AI workflows!** 🚀
+
 ## Troubleshooting
 
 If something goes wrong:

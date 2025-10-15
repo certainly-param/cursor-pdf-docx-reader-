@@ -34,7 +34,11 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('pdfDocxReader.batchProcessFiles', batchProcessFiles),
         // AI-specific commands
         vscode.commands.registerCommand('pdfDocxReader.readFileForAI', (filePath: string) => readFileForAI(filePath)),
-        vscode.commands.registerCommand('pdfDocxReader.getDocumentSummary', (filePath: string) => getDocumentSummary(filePath))
+        vscode.commands.registerCommand('pdfDocxReader.getDocumentSummary', (filePath: string) => getDocumentSummary(filePath)),
+        // Auto-detection commands for AI
+        vscode.commands.registerCommand('pdfDocxReader.autoDetectAndProcess', (filePath: string) => autoDetectAndProcess(filePath)),
+        vscode.commands.registerCommand('pdfDocxReader.processForAI', (filePath: string) => processForAI(filePath)),
+        vscode.commands.registerCommand('pdfDocxReader.getAIReadyContent', (filePath: string) => getAIReadyContent(filePath))
     ];
 
     commands.forEach(command => context.subscriptions.push(command));
@@ -342,6 +346,104 @@ async function getDocumentSummary(filePath: string): Promise<string> {
     } catch (error) {
         return `Error: ${error}`;
     }
+}
+
+// Auto-detection functions for AI integration
+async function autoDetectAndProcess(filePath: string): Promise<DocumentData | null> {
+    try {
+        // Check if file exists and is supported
+        if (!filePath || !fs.existsSync(filePath)) {
+            console.log(`File not found: ${filePath}`);
+            return null;
+        }
+
+        const ext = path.extname(filePath).toLowerCase();
+        if (ext !== '.pdf' && ext !== '.docx') {
+            console.log(`Unsupported file type: ${ext}`);
+            return null;
+        }
+
+        console.log(`Auto-detecting and processing: ${filePath}`);
+        
+        // Process the file automatically
+        const data = await readDocumentFile(filePath, 'json', 
+            { report: () => {} }, 
+            { isCancellationRequested: false, onCancellationRequested: () => { return { dispose: () => {} }; } }
+        );
+
+        return data;
+    } catch (error) {
+        console.error(`Auto-detection failed for ${filePath}: ${error}`);
+        return null;
+    }
+}
+
+async function processForAI(filePath: string): Promise<string> {
+    try {
+        const data = await autoDetectAndProcess(filePath);
+        if (!data) {
+            return JSON.stringify({ error: 'Failed to process document', file: filePath });
+        }
+
+        // Create AI-optimized structure
+        const aiReadyData = {
+            ai_ready: true,
+            file_path: data.file_path,
+            file_type: data.file_type,
+            content: data.full_text,
+            summary: generateDocumentSummary(data),
+            metadata: data.metadata,
+            structure: {
+                page_count: data.page_count || data.paragraph_count || 0,
+                char_count: data.full_text.length,
+                word_count: data.full_text.split(/\s+/).length,
+                ...(data.file_type === 'PDF' && { pages: data.pages }),
+                ...(data.file_type === 'DOCX' && { paragraphs: data.paragraphs })
+            },
+            processed_at: new Date().toISOString()
+        };
+
+        return JSON.stringify(aiReadyData, null, 2);
+    } catch (error) {
+        return JSON.stringify({ error: `Processing failed: ${error}`, file: filePath });
+    }
+}
+
+async function getAIReadyContent(filePath: string): Promise<string> {
+    try {
+        const data = await autoDetectAndProcess(filePath);
+        if (!data) {
+            return 'Document could not be processed.';
+        }
+
+        // Return clean, AI-ready text content
+        let content = `Document: ${path.basename(filePath)}\n`;
+        content += `Type: ${data.file_type}\n`;
+        content += `Size: ${data.full_text.length} characters\n\n`;
+        content += `Content:\n${data.full_text}`;
+
+        return content;
+    } catch (error) {
+        return `Error processing document: ${error}`;
+    }
+}
+
+function generateDocumentSummary(data: DocumentData): string {
+    const wordCount = data.full_text.split(/\s+/).length;
+    const pageCount = data.page_count || data.paragraph_count || 0;
+    
+    let summary = `This is a ${data.file_type} document with ${pageCount} ${data.file_type === 'PDF' ? 'pages' : 'paragraphs'}`;
+    summary += ` containing ${wordCount} words and ${data.full_text.length} characters.`;
+    
+    if (data.metadata.title) {
+        summary += ` Title: "${data.metadata.title}".`;
+    }
+    
+    if (data.metadata.author) {
+        summary += ` Author: ${data.metadata.author}.`;
+    }
+
+    return summary;
 }
 
 export function deactivate() {
